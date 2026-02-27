@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  mcp-unified-server:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - MCP_PORT=3000
+      # Load from .env file
+      - MCP_AUTH_SECRET
+      - SNOWFLAKE_ACCOUNT
+      - SNOWFLAKE_USER
+      - SNOWFLAKE_WAREHOUSE
+      - SNOWFLAKE_DATABASE
+      - SNOWFLAKE_AUTHENTICATOR
+      - QBO_CLIENT_ID
+      - QBO_CLIENT_SECRET
+      - QBO_REDIRECT_URI
+      - RAMP_CLIENT_ID
+      - RAMP_CLIENT_SECRET
+      - GOOGLE_APPLICATION_CREDENTIALS
+      - GOOGLE_CLIENT_EMAIL
+      - GOOGLE_WRITE_PRIVATE_KEY
+      - AWS_REGION
+      - AWS_S3_BUCKET
+      - AWS_S3_PREFIX
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - GEMINI_API_KEY
+    volumes:
+      # Mount Google service account credentials if using file-based auth
+      - "${GOOGLE_APPLICATION_CREDENTIALS:-/dev/null}:${GOOGLE_APPLICATION_CREDENTIALS:-/dev/null}:ro"
+      # Mount source code for development (optional)
+      - "../src:/app/src:ro"
+      - "../config:/app/config:ro"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Add a reverse proxy for production-like setup
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./nginx.conf:/etc/nginx/nginx.conf:ro"
+    depends_on:
+      - mcp-unified-server
+    restart: unless-stopped
+    profiles:
+      - proxy
+
+networks:
+  default:
+    name: mcp-unified-network

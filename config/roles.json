@@ -1,0 +1,54 @@
+{
+  "roles": {
+    "admin": {
+      "description": "Full access to all tools and administrative functions",
+      "allowedTools": ["*"]
+    },
+    "analyst": {
+      "description": "Data analysis tools - Snowflake, Claims, Google, S3, Gemini",
+      "allowedTools": [
+        "snowflake_*",
+        "claims_*",
+        "google_*",
+        "s3_*",
+        "gemini_*",
+        "xlsx_*",
+        "client_hierarchy_*"
+      ]
+    },
+    "finance": {
+      "description": "Financial tools - QBO, Claims, Ramp",
+      "allowedTools": [
+        "qbo_*",
+        "claims_*",
+        "ramp_*",
+        "xlsx_*"
+      ]
+    },
+    "readonly": {
+      "description": "Read-only access to most tools (no create/update/delete operations)",
+      "allowedTools": [
+        "qbo_get_*",
+        "qbo_query",
+        "snowflake_run_query",
+        "snowflake_list_*",
+        "snowflake_describe_*",
+        "snowflake_preview_*",
+        "claims_list_*",
+        "claims_get_*",
+        "ramp_get_*",
+        "google_list_*",
+        "google_get_*",
+        "s3_download",
+        "s3_get_*"
+      ]
+    }
+  },
+  "defaultRole": "readonly",
+  "tokenExpiry": {
+    "admin": "24h",
+    "analyst": "8h",
+    "finance": "8h",
+    "readonly": "4h"
+  }
+}

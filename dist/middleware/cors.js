@@ -1,0 +1,48 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createCorsMiddleware = createCorsMiddleware;
+const cors_1 = __importDefault(require("cors"));
+// CORS configuration for MCP HTTP server
+function createCorsMiddleware() {
+    const corsOptions = {
+        origin: function (origin, callback) {
+            // In development, allow all origins
+            if (process.env.NODE_ENV === 'development') {
+                return callback(null, true);
+            }
+            // In production, define allowed origins
+            const allowedOrigins = [
+                'https://claude.ai',
+                'https://console.anthropic.com',
+                'http://localhost:3000',
+                'http://localhost:8080',
+                // Add your production domains here
+            ];
+            // Allow requests with no origin (mobile apps, Postman, etc.)
+            if (!origin)
+                return callback(null, true);
+            if (allowedOrigins.includes(origin)) {
+                callback(null, true);
+            }
+            else {
+                console.warn(`CORS rejected origin: ${origin}`);
+                callback(new Error(`Origin ${origin} not allowed by CORS policy`));
+            }
+        },
+        methods: ['GET', 'POST', 'OPTIONS'],
+        allowedHeaders: [
+            'Content-Type',
+            'Authorization',
+            'X-Requested-With',
+            'Accept'
+        ],
+        credentials: true,
+        maxAge: 86400, // 24 hours
+        optionsSuccessStatus: 200 // For legacy browser support
+    };
+    return (0, cors_1.default)(corsOptions);
+}
+//# sourceMappingURL=cors.js.map
