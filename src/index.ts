@@ -22,9 +22,12 @@ import { getAllowedTools } from './auth/roles';
 import { qboTools, handleQboTool } from './tools/qbo';
 import { snowflakeTools, handleSnowflakeTool } from './tools/snowflake';
 import { claimsTools, handleClaimsTool } from './tools/claims';
-// import { googleTools } from './tools/google';
+import { googleTools, handleGoogleTool } from './tools/google';
+import { s3Tools, handleS3Tool } from './tools/s3';
+import { geminiTools, handleGeminiTool } from './tools/gemini';
+import { beeswaxTools, handleBeeswaxTool } from './tools/beeswax';
+import { xlsxTools, handleXlsxTool } from './tools/xlsx';
 // import { rampTools } from './tools/ramp';
-// import { s3Tools } from './tools/s3';
 
 // Placeholder tools for initial setup
 const placeholderTools = [
@@ -288,6 +291,21 @@ class UnifiedMCPServer {
         } else if (name.startsWith('claims_')) {
           // Handle Claims tools
           response = await handleClaimsTool(name, args);
+        } else if (name.startsWith('google_')) {
+          // Handle Google Workspace tools
+          response = await handleGoogleTool(name, args);
+        } else if (name.startsWith('s3_')) {
+          // Handle S3 tools
+          response = await handleS3Tool(name, args);
+        } else if (name.startsWith('gemini_')) {
+          // Handle Gemini AI tools
+          response = await handleGeminiTool(name, args);
+        } else if (name.startsWith('beeswax_')) {
+          // Handle Beeswax CSV tools
+          response = await handleBeeswaxTool(name, args);
+        } else if (name.startsWith('xlsx_')) {
+          // Handle Excel/XLSX tools
+          response = await handleXlsxTool(name, args);
         } else {
           // Default response for not-yet-implemented tools
           response = {
@@ -341,10 +359,13 @@ class UnifiedMCPServer {
         ...placeholderTools,
         ...qboTools,
         ...snowflakeTools,
-        ...claimsTools
-        // ...googleTools,
-        // ...rampTools,
-        // ...s3Tools
+        ...claimsTools,
+        ...googleTools,
+        ...s3Tools,
+        ...geminiTools,
+        ...beeswaxTools,
+        ...xlsxTools
+        // ...rampTools (can add later from company-os)
       ];
 
       console.log(`Loaded ${this.allTools.length} tools`);

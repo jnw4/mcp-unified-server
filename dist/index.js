@@ -19,9 +19,12 @@ const roles_1 = require("./auth/roles");
 const qbo_1 = require("./tools/qbo");
 const snowflake_1 = require("./tools/snowflake");
 const claims_1 = require("./tools/claims");
-// import { googleTools } from './tools/google';
+const google_1 = require("./tools/google");
+const s3_1 = require("./tools/s3");
+const gemini_1 = require("./tools/gemini");
+const beeswax_1 = require("./tools/beeswax");
+const xlsx_1 = require("./tools/xlsx");
 // import { rampTools } from './tools/ramp';
-// import { s3Tools } from './tools/s3';
 // Placeholder tools for initial setup
 const placeholderTools = [
     {
@@ -252,6 +255,26 @@ class UnifiedMCPServer {
                     // Handle Claims tools
                     response = await (0, claims_1.handleClaimsTool)(name, args);
                 }
+                else if (name.startsWith('google_')) {
+                    // Handle Google Workspace tools
+                    response = await (0, google_1.handleGoogleTool)(name, args);
+                }
+                else if (name.startsWith('s3_')) {
+                    // Handle S3 tools
+                    response = await (0, s3_1.handleS3Tool)(name, args);
+                }
+                else if (name.startsWith('gemini_')) {
+                    // Handle Gemini AI tools
+                    response = await (0, gemini_1.handleGeminiTool)(name, args);
+                }
+                else if (name.startsWith('beeswax_')) {
+                    // Handle Beeswax CSV tools
+                    response = await (0, beeswax_1.handleBeeswaxTool)(name, args);
+                }
+                else if (name.startsWith('xlsx_')) {
+                    // Handle Excel/XLSX tools
+                    response = await (0, xlsx_1.handleXlsxTool)(name, args);
+                }
                 else {
                     // Default response for not-yet-implemented tools
                     response = {
@@ -298,10 +321,13 @@ class UnifiedMCPServer {
                 ...placeholderTools,
                 ...qbo_1.qboTools,
                 ...snowflake_1.snowflakeTools,
-                ...claims_1.claimsTools
-                // ...googleTools,
-                // ...rampTools,
-                // ...s3Tools
+                ...claims_1.claimsTools,
+                ...google_1.googleTools,
+                ...s3_1.s3Tools,
+                ...gemini_1.geminiTools,
+                ...beeswax_1.beeswaxTools,
+                ...xlsx_1.xlsxTools
+                // ...rampTools (can add later from company-os)
             ];
             console.log(`Loaded ${this.allTools.length} tools`);
             // Start HTTP server
