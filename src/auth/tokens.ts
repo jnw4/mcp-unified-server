@@ -44,17 +44,26 @@ export async function generateToken(
     throw new ValidationError(`Invalid role: ${role}`);
   }
 
-  // Get expiry duration
-  const expiryDuration = customExpiry || getTokenExpiry(role);
-  const expirySeconds = parseDuration(expiryDuration);
-
   // Create payload
   const now = Math.floor(Date.now() / 1000);
+  let exp: number;
+
+  // Handle permanent tokens
+  if (customExpiry === 'permanent' || customExpiry === 'never') {
+    // Set expiration to year 2099 (effectively permanent)
+    exp = new Date('2099-01-01').getTime() / 1000;
+  } else {
+    // Get expiry duration
+    const expiryDuration = customExpiry || getTokenExpiry(role);
+    const expirySeconds = parseDuration(expiryDuration);
+    exp = now + expirySeconds;
+  }
+
   const payload: TokenPayload = {
     sub: userId,
     role: role as TokenPayload['role'],
     iat: now,
-    exp: now + expirySeconds,
+    exp,
     iss: ISSUER
   };
 

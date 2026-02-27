@@ -41,16 +41,25 @@ async function generateToken(userId, role, customExpiry) {
     if (!(0, roles_1.validateRole)(role)) {
         throw new errors_1.ValidationError(`Invalid role: ${role}`);
     }
-    // Get expiry duration
-    const expiryDuration = customExpiry || (0, roles_1.getTokenExpiry)(role);
-    const expirySeconds = parseDuration(expiryDuration);
     // Create payload
     const now = Math.floor(Date.now() / 1000);
+    let exp;
+    // Handle permanent tokens
+    if (customExpiry === 'permanent' || customExpiry === 'never') {
+        // Set expiration to year 2099 (effectively permanent)
+        exp = new Date('2099-01-01').getTime() / 1000;
+    }
+    else {
+        // Get expiry duration
+        const expiryDuration = customExpiry || (0, roles_1.getTokenExpiry)(role);
+        const expirySeconds = parseDuration(expiryDuration);
+        exp = now + expirySeconds;
+    }
     const payload = {
         sub: userId,
         role: role,
         iat: now,
-        exp: now + expirySeconds,
+        exp,
         iss: ISSUER
     };
     // Sign JWT

@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: mcp-unified-server
+    env: node
+    plan: starter
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MCP_PORT
+        value: 10000
+      - key: MCP_AUTH_SECRET
+        value: pureplay-unified-mcp-secret-2026-production-key-12345678901234567890
+      - key: SNOWFLAKE_ACCOUNT
+        value: PUREPLAY-TB46736
+      - key: SNOWFLAKE_USER
+        value: JOSEPH@PUREPLAY.MEDIA
+      - key: SNOWFLAKE_WAREHOUSE
+        value: Developer
+      - key: SNOWFLAKE_DATABASE
+        value: PurePlay
+      - key: SNOWFLAKE_AUTHENTICATOR
+        value: externalbrowser
+      - key: QBO_CLIENT_ID
+        value: ABy60tswTG2LUpXkIlKgHoRsyKb7uO5hOHKL47XfsTdagpqkz6
+      - key: QBO_CLIENT_SECRET
+        value: Cxpt6KHdSnKQ4Wj0QhLte9Ofhb2PTc6mrEJkRUeB
+      - key: QBO_REDIRECT_URI
+        value: https://developer.intuit.com/v2/OAuth2Playground/RedirectUrl
+      - key: RAMP_CLIENT_ID
+        value: ramp_id_Qsp1ofIRF0hlP8yHYmmuyeSmWbOaN2JnGObYkEsP
+      - key: RAMP_CLIENT_SECRET
+        value: ramp_sec_HOih9D5mvOTVGhuV5o8508UQosn8mYRMF1OX0EbFv8qabckG
+      - key: GOOGLE_APPLICATION_CREDENTIALS
+        value: /opt/render/project/src/google-service-account.json
+      - key: AWS_REGION
+        value: us-east-2
+    healthCheckPath: /health
