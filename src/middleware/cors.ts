@@ -4,7 +4,7 @@ import { CorsOptions } from 'cors';
 // CORS configuration for MCP HTTP server
 export function createCorsMiddleware() {
   const corsOptions: CorsOptions = {
-    origin: function (origin, callback) {
+    origin: function (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) {
       // In development, allow all origins
       if (process.env.NODE_ENV === 'development') {
         return callback(null, true);

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
@@ -100,7 +100,7 @@ class UnifiedMCPServer {
     this.app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
     // Request logging
-    this.app.use((req, res, next) => {
+    this.app.use((req: Request, res: Response, next: NextFunction) => {
       console.log(`${new Date().toISOString()} ${req.method} ${req.path}`);
       next();
     });
@@ -171,7 +171,7 @@ class UnifiedMCPServer {
 
   private setupHTTPRoutes(): void {
     // Health check endpoint (no auth required)
-    this.app.get('/health', (req, res) => {
+    this.app.get('/health', (req: Request, res: Response) => {
       const connectionStatuses = connectionManager.getAllStatuses();
 
       res.json({
@@ -196,7 +196,7 @@ class UnifiedMCPServer {
     this.app.post('/tools/call', authenticateToken, authorizeToolAccess, this.handleMCPRequest.bind(this));
 
     // Server info endpoint (optional auth)
-    this.app.get('/info', optionalAuth, (req, res) => {
+    this.app.get('/info', optionalAuth, (req: Request, res: Response) => {
       const userRole = req.auth?.role || 'anonymous';
       const availableTools = req.auth
         ? getAllowedTools(userRole, this.allTools.map(t => t.name))
@@ -243,7 +243,7 @@ class UnifiedMCPServer {
     });
 
     // 404 handler
-    this.app.use((req, res) => {
+    this.app.use((req: Request, res: Response) => {
       res.status(404).json({
         jsonrpc: '2.0',
         error: {
