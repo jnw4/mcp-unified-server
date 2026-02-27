@@ -33,9 +33,37 @@ services:
       - key: RAMP_CLIENT_SECRET
         value: ramp_sec_HOih9D5mvOTVGhuV5o8508UQosn8mYRMF1OX0EbFv8qabckG
       - key: GOOGLE_CLIENT_EMAIL
-        value: REPLACE_WITH_YOUR_CLIENT_EMAIL
+        value: company-os@crypto-monolith-466915-j1.iam.gserviceaccount.com
       - key: GOOGLE_PRIVATE_KEY
-        value: "REPLACE_WITH_YOUR_COMPLETE_PRIVATE_KEY"
+        value: "-----BEGIN PRIVATE KEY-----
+MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC6WzT3S27/v+ix
+GkFsBmIOy1P7C08IJ3MjcBhp+j/8S57QTyr0txuXTpibD1WCZ0CDThmWO0k5ubu0
+sOPCYXHQJ8ZUfFkbVqPCtK3TIYq7DO2Cp3jcYmYeTLG7zxhJubdxERam7+Kj/Qmh
+fLvbnY7O77N5xF7lt7mBfeC7KkgT8FisveRAc92Ne+R16ayXo95aJWk4ADfcnH6v
+ddEIeEvLO1i9tH06jhZBTbm5qszL1XVyh7Iflev4xwVxdVkKEAXv6BKM6q4YgRXU
+zw2GfQaLI/2BremGWGXHW7w2sRIplBgqA4ZrhnOcpc2IKUROlE25aNuuHUDH5HKc
+s465fmphAgMBAAECggEAG8l1wFnzFxdabu3nS2A4RtRylUA+bIzVUjdorISv/cKY
+z56+XPbgmlMR1i0XJvaWW/3NOuVkKcNUBcFKdLVq7wq/O+G+t6DXkjS2poCd2v42
+fADUuKfDakktRz+982BJxgYyRnoGZUVZpkafDEQWAy0iqclqDP60HmbSl5XaYX53
+0N5FjCPYnyh28+mvz+fzHOsPMqnGjO3MhwdMe1MApGG8GcSa0BkZQv14vGYx6q9J
+DdQWqNkkPQx7QrxyURCge3fBJ8y8nSpz+3i3zltlMOMbT+Dum6rf9uuu06DZOGrg
+iaoUWnrX8ZUw5duSsApu7GWvaA1JrG3MiFoNzuadsQKBgQDgogfQE9MWmbhcv+Fc
+VONWkSUlWa+zS1Ip0e+Uu9RjzIUQCoIcbSU7K/NEnXf/xC9mQHympIhBgpI/dcgS
+omUbMXZJRTgq2k0pG60CnloctHgn1ffo770bpatx1ipAuB+jDmd1Lwn7ewz2iDQJ
+srGNfKOCI/bU7PG+sFNp7t1ejwKBgQDUYOXneJBOKAZvY9xp/0YpjpOYfjKELqyw
+vmgRr633hRgk+tqnhETgoomeqZZKOtvth2qZjN9s5KKVl0vl9ZRzmJv//eBLcf4+
+GA27gDTYHy10I3qFjNKF60/xiKteCYBg3o3DXP3s2vB7wNzMfFCY3gaIpjckcuf9
+OCzYYAwgDwKBgQCBQrvcMIw3ZR2BwaicyPxIxBzr8T/5nE4bYoLKw4rkIrwvDtzw
+Hp5d/lxuD28N7oaYAGO6QNNnXwtpGQ2YK3qiu0Olxf8cKaJdFV/pMdYIzpCV27pc
+gBgB4MNXLjYCJ/GMkq1V8Ut9OsGq25WWPw2MrTwplyhiPjad1DkrrBgWYQKBgAOU
+squpc71tnVYpd+DtpfAzcDelARMLemvsefK6ZJOE0fhlpmQmrcaf1vQu5dLQlT63
+BswZ/PZoEHm3OFdjQaKFUzQIwsxi2qePXkPoEHwIYorPwlQYIMCTTCDFbiZCwMBh
+YECIA9wHgQCFKvPjsLQzIicRrmJV8aVqWg8351xvAoGBANnuCcbO52tmhs5TPOXR
+9AZXWhRah5Q855lDzD/hEQXswzvIqaCFcu3sAaCKkmi01LoPuBLRabhhhKcr53VQ
+orh458eqgVhAaLpF4Fy7huSgHVG++VeXb6xW83l1/RGBX280m8V06WRwo+b1hebH
+joVVlsvdmOdqsStQKpYGAwrp
+-----END PRIVATE KEY-----
+"
       - key: AWS_REGION
         value: us-east-2
     healthCheckPath: /health
