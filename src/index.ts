@@ -27,7 +27,12 @@ import { s3Tools, handleS3Tool } from './tools/s3';
 import { geminiTools, handleGeminiTool } from './tools/gemini';
 import { beeswaxTools, handleBeeswaxTool } from './tools/beeswax';
 import { xlsxTools, handleXlsxTool } from './tools/xlsx';
-// import { rampTools } from './tools/ramp';
+import { openaiTools, handleOpenAITool } from './tools/openai';
+import { anthropicTools, handleAnthropicTool } from './tools/anthropic';
+import { githubTools, handleGitHubTool } from './tools/github';
+import { vercelTools, handleVercelTool } from './tools/vercel';
+import { supabaseTools, handleSupabaseTool } from './tools/supabase';
+import { rampTools, handleRampTool } from './tools/ramp';
 
 // Placeholder tools for initial setup
 const placeholderTools = [
@@ -306,6 +311,24 @@ class UnifiedMCPServer {
         } else if (name.startsWith('xlsx_')) {
           // Handle Excel/XLSX tools
           response = await handleXlsxTool(name, args);
+        } else if (name.startsWith('openai_')) {
+          // Handle OpenAI tools
+          response = await handleOpenAITool(name, args);
+        } else if (name.startsWith('anthropic_')) {
+          // Handle Anthropic Claude tools
+          response = await handleAnthropicTool(name, args);
+        } else if (name.startsWith('github_')) {
+          // Handle GitHub tools
+          response = await handleGitHubTool(name, args);
+        } else if (name.startsWith('vercel_')) {
+          // Handle Vercel tools
+          response = await handleVercelTool(name, args);
+        } else if (name.startsWith('supabase_')) {
+          // Handle Supabase tools
+          response = await handleSupabaseTool(name, args);
+        } else if (name.startsWith('ramp_')) {
+          // Handle Ramp tools
+          response = await handleRampTool(name, args);
         } else {
           // Default response for not-yet-implemented tools
           response = {
@@ -364,8 +387,13 @@ class UnifiedMCPServer {
         ...s3Tools,
         ...geminiTools,
         ...beeswaxTools,
-        ...xlsxTools
-        // ...rampTools (can add later from company-os)
+        ...xlsxTools,
+        ...openaiTools,
+        ...anthropicTools,
+        ...githubTools,
+        ...vercelTools,
+        ...supabaseTools,
+        ...rampTools
       ];
 
       console.log(`Loaded ${this.allTools.length} tools`);

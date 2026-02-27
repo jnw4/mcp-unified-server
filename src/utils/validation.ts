@@ -37,7 +37,32 @@ export const envSchema = z.object({
   AWS_SECRET_ACCESS_KEY: z.string().optional(),
 
   // Gemini
-  GEMINI_API_KEY: z.string().optional()
+  GEMINI_API_KEY: z.string().optional(),
+
+  // OpenAI
+  OPENAI_API_KEY: z.string().optional(),
+  OPENAI_ORG_ID: z.string().optional(),
+
+  // Anthropic
+  ANTHROPIC_API_KEY: z.string().optional(),
+
+  // GitHub
+  GITHUB_TOKEN: z.string().optional(),
+  GITHUB_OWNER: z.string().optional(),
+
+  // Vercel
+  VERCEL_TOKEN: z.string().optional(),
+  VERCEL_TEAM_ID: z.string().optional(),
+
+  // Supabase
+  SUPABASE_URL: z.string().optional(),
+  SUPABASE_ANON_KEY: z.string().optional(),
+  SUPABASE_SERVICE_ROLE_KEY: z.string().optional(),
+
+  // Beeswax DSP
+  BEESWAX_API_URL: z.string().optional(),
+  BEESWAX_API_KEY: z.string().optional(),
+  BEESWAX_USER_ID: z.string().optional()
 });
 
 export type Environment = z.infer<typeof envSchema>;

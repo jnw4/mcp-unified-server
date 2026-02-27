@@ -23,6 +23,19 @@ export declare const envSchema: z.ZodObject<{
     AWS_ACCESS_KEY_ID: z.ZodOptional<z.ZodString>;
     AWS_SECRET_ACCESS_KEY: z.ZodOptional<z.ZodString>;
     GEMINI_API_KEY: z.ZodOptional<z.ZodString>;
+    OPENAI_API_KEY: z.ZodOptional<z.ZodString>;
+    OPENAI_ORG_ID: z.ZodOptional<z.ZodString>;
+    ANTHROPIC_API_KEY: z.ZodOptional<z.ZodString>;
+    GITHUB_TOKEN: z.ZodOptional<z.ZodString>;
+    GITHUB_OWNER: z.ZodOptional<z.ZodString>;
+    VERCEL_TOKEN: z.ZodOptional<z.ZodString>;
+    VERCEL_TEAM_ID: z.ZodOptional<z.ZodString>;
+    SUPABASE_URL: z.ZodOptional<z.ZodString>;
+    SUPABASE_ANON_KEY: z.ZodOptional<z.ZodString>;
+    SUPABASE_SERVICE_ROLE_KEY: z.ZodOptional<z.ZodString>;
+    BEESWAX_API_URL: z.ZodOptional<z.ZodString>;
+    BEESWAX_API_KEY: z.ZodOptional<z.ZodString>;
+    BEESWAX_USER_ID: z.ZodOptional<z.ZodString>;
 }, "strip", z.ZodTypeAny, {
     NODE_ENV: "development" | "production" | "test";
     MCP_PORT: number;
@@ -47,6 +60,19 @@ export declare const envSchema: z.ZodObject<{
     AWS_ACCESS_KEY_ID?: string | undefined;
     AWS_SECRET_ACCESS_KEY?: string | undefined;
     GEMINI_API_KEY?: string | undefined;
+    OPENAI_API_KEY?: string | undefined;
+    OPENAI_ORG_ID?: string | undefined;
+    ANTHROPIC_API_KEY?: string | undefined;
+    GITHUB_TOKEN?: string | undefined;
+    GITHUB_OWNER?: string | undefined;
+    VERCEL_TOKEN?: string | undefined;
+    VERCEL_TEAM_ID?: string | undefined;
+    SUPABASE_URL?: string | undefined;
+    SUPABASE_ANON_KEY?: string | undefined;
+    SUPABASE_SERVICE_ROLE_KEY?: string | undefined;
+    BEESWAX_API_URL?: string | undefined;
+    BEESWAX_API_KEY?: string | undefined;
+    BEESWAX_USER_ID?: string | undefined;
 }, {
     MCP_AUTH_SECRET: string;
     SNOWFLAKE_ACCOUNT: string;
@@ -71,6 +97,19 @@ export declare const envSchema: z.ZodObject<{
     AWS_ACCESS_KEY_ID?: string | undefined;
     AWS_SECRET_ACCESS_KEY?: string | undefined;
     GEMINI_API_KEY?: string | undefined;
+    OPENAI_API_KEY?: string | undefined;
+    OPENAI_ORG_ID?: string | undefined;
+    ANTHROPIC_API_KEY?: string | undefined;
+    GITHUB_TOKEN?: string | undefined;
+    GITHUB_OWNER?: string | undefined;
+    VERCEL_TOKEN?: string | undefined;
+    VERCEL_TEAM_ID?: string | undefined;
+    SUPABASE_URL?: string | undefined;
+    SUPABASE_ANON_KEY?: string | undefined;
+    SUPABASE_SERVICE_ROLE_KEY?: string | undefined;
+    BEESWAX_API_URL?: string | undefined;
+    BEESWAX_API_KEY?: string | undefined;
+    BEESWAX_USER_ID?: string | undefined;
 }>;
 export type Environment = z.infer<typeof envSchema>;
 export declare const listToolsRequestSchema: z.ZodObject<{

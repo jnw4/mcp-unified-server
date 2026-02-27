@@ -1,0 +1,64 @@
+import * as z from "zod/v3";
+import { ClosedEnum } from "../types/enums.js";
+import { Result as SafeParseResult } from "../types/fp.js";
+import { SDKValidationError } from "./sdkvalidationerror.js";
+export type ReadAccessGroupProjectRequest = {
+    accessGroupIdOrName: string;
+    projectId: string;
+    /**
+     * The Team identifier to perform the request on behalf of.
+     */
+    teamId?: string | undefined;
+    /**
+     * The Team slug to perform the request on behalf of.
+     */
+    slug?: string | undefined;
+};
+export declare const ReadAccessGroupProjectRole: {
+    readonly Admin: "ADMIN";
+    readonly ProjectDeveloper: "PROJECT_DEVELOPER";
+    readonly ProjectViewer: "PROJECT_VIEWER";
+    readonly ProjectGuest: "PROJECT_GUEST";
+};
+export type ReadAccessGroupProjectRole = ClosedEnum<typeof ReadAccessGroupProjectRole>;
+export type ReadAccessGroupProjectResponseBody = {
+    teamId: string;
+    accessGroupId: string;
+    projectId: string;
+    role: ReadAccessGroupProjectRole;
+    createdAt: string;
+    updatedAt: string;
+};
+/** @internal */
+export declare const ReadAccessGroupProjectRequest$inboundSchema: z.ZodType<ReadAccessGroupProjectRequest, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ReadAccessGroupProjectRequest$Outbound = {
+    accessGroupIdOrName: string;
+    projectId: string;
+    teamId?: string | undefined;
+    slug?: string | undefined;
+};
+/** @internal */
+export declare const ReadAccessGroupProjectRequest$outboundSchema: z.ZodType<ReadAccessGroupProjectRequest$Outbound, z.ZodTypeDef, ReadAccessGroupProjectRequest>;
+export declare function readAccessGroupProjectRequestToJSON(readAccessGroupProjectRequest: ReadAccessGroupProjectRequest): string;
+export declare function readAccessGroupProjectRequestFromJSON(jsonString: string): SafeParseResult<ReadAccessGroupProjectRequest, SDKValidationError>;
+/** @internal */
+export declare const ReadAccessGroupProjectRole$inboundSchema: z.ZodNativeEnum<typeof ReadAccessGroupProjectRole>;
+/** @internal */
+export declare const ReadAccessGroupProjectRole$outboundSchema: z.ZodNativeEnum<typeof ReadAccessGroupProjectRole>;
+/** @internal */
+export declare const ReadAccessGroupProjectResponseBody$inboundSchema: z.ZodType<ReadAccessGroupProjectResponseBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ReadAccessGroupProjectResponseBody$Outbound = {
+    teamId: string;
+    accessGroupId: string;
+    projectId: string;
+    role: string;
+    createdAt: string;
+    updatedAt: string;
+};
+/** @internal */
+export declare const ReadAccessGroupProjectResponseBody$outboundSchema: z.ZodType<ReadAccessGroupProjectResponseBody$Outbound, z.ZodTypeDef, ReadAccessGroupProjectResponseBody>;
+export declare function readAccessGroupProjectResponseBodyToJSON(readAccessGroupProjectResponseBody: ReadAccessGroupProjectResponseBody): string;
+export declare function readAccessGroupProjectResponseBodyFromJSON(jsonString: string): SafeParseResult<ReadAccessGroupProjectResponseBody, SDKValidationError>;
+//# sourceMappingURL=readaccessgroupprojectop.d.ts.map

@@ -1,0 +1,164 @@
+import * as z from "zod/v3";
+import { Result as SafeParseResult } from "../types/fp.js";
+import { SDKValidationError } from "./sdkvalidationerror.js";
+export type ListAccessGroupsRequest = {
+    /**
+     * Filter access groups by project.
+     */
+    projectId?: string | undefined;
+    /**
+     * Search for access groups by name.
+     */
+    search?: string | undefined;
+    /**
+     * Number of members to include in the response.
+     */
+    membersLimit?: number | undefined;
+    /**
+     * Number of projects to include in the response.
+     */
+    projectsLimit?: number | undefined;
+    /**
+     * Limit how many access group should be returned.
+     */
+    limit?: number | undefined;
+    /**
+     * Continuation cursor to retrieve the next page of results.
+     */
+    next?: string | undefined;
+    /**
+     * The Team identifier to perform the request on behalf of.
+     */
+    teamId?: string | undefined;
+    /**
+     * The Team slug to perform the request on behalf of.
+     */
+    slug?: string | undefined;
+};
+export type AccessGroups = {
+    members?: Array<string> | undefined;
+    projects?: Array<string> | undefined;
+    entitlements?: Array<string> | undefined;
+    teamPermissions?: Array<string> | undefined;
+    isDsyncManaged: boolean;
+    /**
+     * The name of this access group.
+     */
+    name: string;
+    /**
+     * Timestamp in milliseconds when the access group was created.
+     */
+    createdAt: string;
+    /**
+     * ID of the team that this access group belongs to.
+     */
+    teamId: string;
+    /**
+     * Timestamp in milliseconds when the access group was last updated.
+     */
+    updatedAt: string;
+    /**
+     * ID of the access group.
+     */
+    accessGroupId: string;
+    /**
+     * Number of members in the access group.
+     */
+    membersCount: number;
+    /**
+     * Number of projects in the access group.
+     */
+    projectsCount: number;
+    /**
+     * Roles that the team has in the access group.
+     */
+    teamRoles?: Array<string> | undefined;
+};
+export type ResponseBodyPagination = {
+    count: number;
+    next: string | null;
+};
+export type ListAccessGroupsResponseBody2 = {
+    accessGroups: Array<AccessGroups>;
+    pagination: ResponseBodyPagination;
+};
+export type ListAccessGroupsResponseBody1 = {};
+export type ListAccessGroupsResponseBody = ListAccessGroupsResponseBody2 | ListAccessGroupsResponseBody1;
+/** @internal */
+export declare const ListAccessGroupsRequest$inboundSchema: z.ZodType<ListAccessGroupsRequest, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ListAccessGroupsRequest$Outbound = {
+    projectId?: string | undefined;
+    search?: string | undefined;
+    membersLimit?: number | undefined;
+    projectsLimit?: number | undefined;
+    limit?: number | undefined;
+    next?: string | undefined;
+    teamId?: string | undefined;
+    slug?: string | undefined;
+};
+/** @internal */
+export declare const ListAccessGroupsRequest$outboundSchema: z.ZodType<ListAccessGroupsRequest$Outbound, z.ZodTypeDef, ListAccessGroupsRequest>;
+export declare function listAccessGroupsRequestToJSON(listAccessGroupsRequest: ListAccessGroupsRequest): string;
+export declare function listAccessGroupsRequestFromJSON(jsonString: string): SafeParseResult<ListAccessGroupsRequest, SDKValidationError>;
+/** @internal */
+export declare const AccessGroups$inboundSchema: z.ZodType<AccessGroups, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AccessGroups$Outbound = {
+    members?: Array<string> | undefined;
+    projects?: Array<string> | undefined;
+    entitlements?: Array<string> | undefined;
+    teamPermissions?: Array<string> | undefined;
+    isDsyncManaged: boolean;
+    name: string;
+    createdAt: string;
+    teamId: string;
+    updatedAt: string;
+    accessGroupId: string;
+    membersCount: number;
+    projectsCount: number;
+    teamRoles?: Array<string> | undefined;
+};
+/** @internal */
+export declare const AccessGroups$outboundSchema: z.ZodType<AccessGroups$Outbound, z.ZodTypeDef, AccessGroups>;
+export declare function accessGroupsToJSON(accessGroups: AccessGroups): string;
+export declare function accessGroupsFromJSON(jsonString: string): SafeParseResult<AccessGroups, SDKValidationError>;
+/** @internal */
+export declare const ResponseBodyPagination$inboundSchema: z.ZodType<ResponseBodyPagination, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ResponseBodyPagination$Outbound = {
+    count: number;
+    next: string | null;
+};
+/** @internal */
+export declare const ResponseBodyPagination$outboundSchema: z.ZodType<ResponseBodyPagination$Outbound, z.ZodTypeDef, ResponseBodyPagination>;
+export declare function responseBodyPaginationToJSON(responseBodyPagination: ResponseBodyPagination): string;
+export declare function responseBodyPaginationFromJSON(jsonString: string): SafeParseResult<ResponseBodyPagination, SDKValidationError>;
+/** @internal */
+export declare const ListAccessGroupsResponseBody2$inboundSchema: z.ZodType<ListAccessGroupsResponseBody2, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ListAccessGroupsResponseBody2$Outbound = {
+    accessGroups: Array<AccessGroups$Outbound>;
+    pagination: ResponseBodyPagination$Outbound;
+};
+/** @internal */
+export declare const ListAccessGroupsResponseBody2$outboundSchema: z.ZodType<ListAccessGroupsResponseBody2$Outbound, z.ZodTypeDef, ListAccessGroupsResponseBody2>;
+export declare function listAccessGroupsResponseBody2ToJSON(listAccessGroupsResponseBody2: ListAccessGroupsResponseBody2): string;
+export declare function listAccessGroupsResponseBody2FromJSON(jsonString: string): SafeParseResult<ListAccessGroupsResponseBody2, SDKValidationError>;
+/** @internal */
+export declare const ListAccessGroupsResponseBody1$inboundSchema: z.ZodType<ListAccessGroupsResponseBody1, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ListAccessGroupsResponseBody1$Outbound = {};
+/** @internal */
+export declare const ListAccessGroupsResponseBody1$outboundSchema: z.ZodType<ListAccessGroupsResponseBody1$Outbound, z.ZodTypeDef, ListAccessGroupsResponseBody1>;
+export declare function listAccessGroupsResponseBody1ToJSON(listAccessGroupsResponseBody1: ListAccessGroupsResponseBody1): string;
+export declare function listAccessGroupsResponseBody1FromJSON(jsonString: string): SafeParseResult<ListAccessGroupsResponseBody1, SDKValidationError>;
+/** @internal */
+export declare const ListAccessGroupsResponseBody$inboundSchema: z.ZodType<ListAccessGroupsResponseBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type ListAccessGroupsResponseBody$Outbound = ListAccessGroupsResponseBody2$Outbound | ListAccessGroupsResponseBody1$Outbound;
+/** @internal */
+export declare const ListAccessGroupsResponseBody$outboundSchema: z.ZodType<ListAccessGroupsResponseBody$Outbound, z.ZodTypeDef, ListAccessGroupsResponseBody>;
+export declare function listAccessGroupsResponseBodyToJSON(listAccessGroupsResponseBody: ListAccessGroupsResponseBody): string;
+export declare function listAccessGroupsResponseBodyFromJSON(jsonString: string): SafeParseResult<ListAccessGroupsResponseBody, SDKValidationError>;
+//# sourceMappingURL=listaccessgroupsop.d.ts.map

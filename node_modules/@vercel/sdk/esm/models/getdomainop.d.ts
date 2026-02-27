@@ -1,0 +1,193 @@
+import * as z from "zod/v3";
+import { ClosedEnum } from "../types/enums.js";
+import { Result as SafeParseResult } from "../types/fp.js";
+import { SDKValidationError } from "./sdkvalidationerror.js";
+export type GetDomainRequest = {
+    /**
+     * The name of the domain.
+     */
+    domain: string;
+    /**
+     * The Team identifier to perform the request on behalf of.
+     */
+    teamId?: string | undefined;
+    /**
+     * The Team slug to perform the request on behalf of.
+     */
+    slug?: string | undefined;
+};
+/**
+ * An object containing information of the domain creator, including the user's id, username, and email.
+ */
+export type GetDomainCreator = {
+    username: string;
+    email: string;
+    customerId?: string | null | undefined;
+    isDomainReseller?: boolean | undefined;
+    id: string;
+};
+/**
+ * Whether or not the domain is registered with Name.com. If set to `true`, the domain is registered with Name.com.
+ */
+export declare const Registrar: {
+    readonly New: "new";
+};
+/**
+ * Whether or not the domain is registered with Name.com. If set to `true`, the domain is registered with Name.com.
+ */
+export type Registrar = ClosedEnum<typeof Registrar>;
+/**
+ * The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available.
+ */
+export declare const ServiceType: {
+    readonly ZeitWorld: "zeit.world";
+    readonly External: "external";
+    readonly Na: "na";
+};
+/**
+ * The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available.
+ */
+export type ServiceType = ClosedEnum<typeof ServiceType>;
+export type GetDomainDomain = {
+    suffix: boolean;
+    /**
+     * If the domain has the ownership verified.
+     */
+    verified: boolean;
+    /**
+     * A list of the current nameservers of the domain.
+     */
+    nameservers: Array<string>;
+    /**
+     * A list of the intended nameservers for the domain to point to Vercel DNS.
+     */
+    intendedNameservers: Array<string>;
+    /**
+     * A list of custom nameservers for the domain to point to. Only applies to domains purchased with Vercel.
+     */
+    customNameservers?: Array<string> | undefined;
+    /**
+     * An object containing information of the domain creator, including the user's id, username, and email.
+     */
+    creator: GetDomainCreator;
+    /**
+     * Whether or not the domain is registered with Name.com. If set to `true`, the domain is registered with Name.com.
+     */
+    registrar?: Registrar | undefined;
+    /**
+     * The domain name.
+     */
+    name: string;
+    teamId: string | null;
+    /**
+     * If it was purchased through Vercel, the timestamp in milliseconds when it was purchased.
+     */
+    boughtAt: number | null;
+    /**
+     * Timestamp in milliseconds when the domain was created in the registry.
+     */
+    createdAt: number;
+    /**
+     * Timestamp in milliseconds at which the domain is set to expire. `null` if not bought with Vercel.
+     */
+    expiresAt: number | null;
+    /**
+     * The unique identifier of the domain.
+     */
+    id: string;
+    /**
+     * Indicates whether the domain is set to automatically renew.
+     */
+    renew?: boolean | undefined;
+    /**
+     * The type of service the domain is handled by. `external` if the DNS is externally handled, `zeit.world` if handled with Vercel, or `na` if the service is not available.
+     */
+    serviceType: ServiceType;
+    /**
+     * Timestamp in milliseconds at which the domain was successfully transferred into Vercel. `null` if the transfer is still processing or was never transferred in.
+     */
+    transferredAt?: number | null | undefined;
+    /**
+     * If transferred into Vercel, timestamp in milliseconds when the domain transfer was initiated.
+     */
+    transferStartedAt?: number | undefined;
+    userId: string;
+};
+/**
+ * Successful response retrieving an information for a specific domains.
+ */
+export type GetDomainResponseBody = {
+    domain: GetDomainDomain;
+};
+/** @internal */
+export declare const GetDomainRequest$inboundSchema: z.ZodType<GetDomainRequest, z.ZodTypeDef, unknown>;
+/** @internal */
+export type GetDomainRequest$Outbound = {
+    domain: string;
+    teamId?: string | undefined;
+    slug?: string | undefined;
+};
+/** @internal */
+export declare const GetDomainRequest$outboundSchema: z.ZodType<GetDomainRequest$Outbound, z.ZodTypeDef, GetDomainRequest>;
+export declare function getDomainRequestToJSON(getDomainRequest: GetDomainRequest): string;
+export declare function getDomainRequestFromJSON(jsonString: string): SafeParseResult<GetDomainRequest, SDKValidationError>;
+/** @internal */
+export declare const GetDomainCreator$inboundSchema: z.ZodType<GetDomainCreator, z.ZodTypeDef, unknown>;
+/** @internal */
+export type GetDomainCreator$Outbound = {
+    username: string;
+    email: string;
+    customerId?: string | null | undefined;
+    isDomainReseller?: boolean | undefined;
+    id: string;
+};
+/** @internal */
+export declare const GetDomainCreator$outboundSchema: z.ZodType<GetDomainCreator$Outbound, z.ZodTypeDef, GetDomainCreator>;
+export declare function getDomainCreatorToJSON(getDomainCreator: GetDomainCreator): string;
+export declare function getDomainCreatorFromJSON(jsonString: string): SafeParseResult<GetDomainCreator, SDKValidationError>;
+/** @internal */
+export declare const Registrar$inboundSchema: z.ZodNativeEnum<typeof Registrar>;
+/** @internal */
+export declare const Registrar$outboundSchema: z.ZodNativeEnum<typeof Registrar>;
+/** @internal */
+export declare const ServiceType$inboundSchema: z.ZodNativeEnum<typeof ServiceType>;
+/** @internal */
+export declare const ServiceType$outboundSchema: z.ZodNativeEnum<typeof ServiceType>;
+/** @internal */
+export declare const GetDomainDomain$inboundSchema: z.ZodType<GetDomainDomain, z.ZodTypeDef, unknown>;
+/** @internal */
+export type GetDomainDomain$Outbound = {
+    suffix: boolean;
+    verified: boolean;
+    nameservers: Array<string>;
+    intendedNameservers: Array<string>;
+    customNameservers?: Array<string> | undefined;
+    creator: GetDomainCreator$Outbound;
+    registrar?: string | undefined;
+    name: string;
+    teamId: string | null;
+    boughtAt: number | null;
+    createdAt: number;
+    expiresAt: number | null;
+    id: string;
+    renew?: boolean | undefined;
+    serviceType: string;
+    transferredAt?: number | null | undefined;
+    transferStartedAt?: number | undefined;
+    userId: string;
+};
+/** @internal */
+export declare const GetDomainDomain$outboundSchema: z.ZodType<GetDomainDomain$Outbound, z.ZodTypeDef, GetDomainDomain>;
+export declare function getDomainDomainToJSON(getDomainDomain: GetDomainDomain): string;
+export declare function getDomainDomainFromJSON(jsonString: string): SafeParseResult<GetDomainDomain, SDKValidationError>;
+/** @internal */
+export declare const GetDomainResponseBody$inboundSchema: z.ZodType<GetDomainResponseBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type GetDomainResponseBody$Outbound = {
+    domain: GetDomainDomain$Outbound;
+};
+/** @internal */
+export declare const GetDomainResponseBody$outboundSchema: z.ZodType<GetDomainResponseBody$Outbound, z.ZodTypeDef, GetDomainResponseBody>;
+export declare function getDomainResponseBodyToJSON(getDomainResponseBody: GetDomainResponseBody): string;
+export declare function getDomainResponseBodyFromJSON(jsonString: string): SafeParseResult<GetDomainResponseBody, SDKValidationError>;
+//# sourceMappingURL=getdomainop.d.ts.map

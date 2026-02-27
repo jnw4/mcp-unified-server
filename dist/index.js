@@ -24,7 +24,12 @@ const s3_1 = require("./tools/s3");
 const gemini_1 = require("./tools/gemini");
 const beeswax_1 = require("./tools/beeswax");
 const xlsx_1 = require("./tools/xlsx");
-// import { rampTools } from './tools/ramp';
+const openai_1 = require("./tools/openai");
+const anthropic_1 = require("./tools/anthropic");
+const github_1 = require("./tools/github");
+const vercel_1 = require("./tools/vercel");
+const supabase_1 = require("./tools/supabase");
+const ramp_1 = require("./tools/ramp");
 // Placeholder tools for initial setup
 const placeholderTools = [
     {
@@ -275,6 +280,30 @@ class UnifiedMCPServer {
                     // Handle Excel/XLSX tools
                     response = await (0, xlsx_1.handleXlsxTool)(name, args);
                 }
+                else if (name.startsWith('openai_')) {
+                    // Handle OpenAI tools
+                    response = await (0, openai_1.handleOpenAITool)(name, args);
+                }
+                else if (name.startsWith('anthropic_')) {
+                    // Handle Anthropic Claude tools
+                    response = await (0, anthropic_1.handleAnthropicTool)(name, args);
+                }
+                else if (name.startsWith('github_')) {
+                    // Handle GitHub tools
+                    response = await (0, github_1.handleGitHubTool)(name, args);
+                }
+                else if (name.startsWith('vercel_')) {
+                    // Handle Vercel tools
+                    response = await (0, vercel_1.handleVercelTool)(name, args);
+                }
+                else if (name.startsWith('supabase_')) {
+                    // Handle Supabase tools
+                    response = await (0, supabase_1.handleSupabaseTool)(name, args);
+                }
+                else if (name.startsWith('ramp_')) {
+                    // Handle Ramp tools
+                    response = await (0, ramp_1.handleRampTool)(name, args);
+                }
                 else {
                     // Default response for not-yet-implemented tools
                     response = {
@@ -326,8 +355,13 @@ class UnifiedMCPServer {
                 ...s3_1.s3Tools,
                 ...gemini_1.geminiTools,
                 ...beeswax_1.beeswaxTools,
-                ...xlsx_1.xlsxTools
-                // ...rampTools (can add later from company-os)
+                ...xlsx_1.xlsxTools,
+                ...openai_1.openaiTools,
+                ...anthropic_1.anthropicTools,
+                ...github_1.githubTools,
+                ...vercel_1.vercelTools,
+                ...supabase_1.supabaseTools,
+                ...ramp_1.rampTools
             ];
             console.log(`Loaded ${this.allTools.length} tools`);
             // Start HTTP server

@@ -5,6 +5,7 @@ import { createReadStream, createWriteStream, writeFileSync } from 'fs';
 import { pipeline } from 'stream';
 import { promisify } from 'util';
 import { S3Client, GetObjectCommand, PutObjectCommand, GetObjectTaggingCommand, PutObjectTaggingCommand } from '@aws-sdk/client-s3';
+import axios, { AxiosInstance } from 'axios';
 
 const pipelineAsync = promisify(pipeline);
 
@@ -18,6 +19,25 @@ function getS3Client(): S3Client {
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
       }
     })
+  });
+}
+
+// Get Beeswax API client
+function getBeeswaxClient(): AxiosInstance {
+  const apiUrl = process.env.BEESWAX_API_URL || 'https://stingersbx.api.beeswax.com';
+  const apiKey = process.env.BEESWAX_API_KEY;
+  const userId = process.env.BEESWAX_USER_ID;
+
+  if (!apiKey || !userId) {
+    throw new Error('BEESWAX_API_KEY and BEESWAX_USER_ID environment variables are required for DSP API calls');
+  }
+
+  return axios.create({
+    baseURL: apiUrl,
+    headers: {
+      'X-API-KEY': apiKey,
+      'Content-Type': 'application/json'
+    }
   });
 }
 
@@ -69,6 +89,120 @@ export const beeswaxTools: Tool[] = [
       required: ['prefix'],
     },
   },
+  {
+    name: 'beeswax_get_campaigns',
+    description: 'Get campaigns from Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        advertiser_id: { type: 'string', description: 'Filter by advertiser ID' },
+        campaign_name: { type: 'string', description: 'Filter by campaign name' },
+        active: { type: 'boolean', description: 'Filter by active status' },
+        limit: { type: 'number', minimum: 1, maximum: 100, default: 50 }
+      }
+    }
+  },
+  {
+    name: 'beeswax_create_campaign',
+    description: 'Create a new campaign in Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        advertiser_id: { type: 'string', description: 'Advertiser ID' },
+        campaign_name: { type: 'string', description: 'Campaign name' },
+        budget: { type: 'number', description: 'Campaign budget in cents' },
+        start_date: { type: 'string', description: 'Start date (YYYY-MM-DD)' },
+        end_date: { type: 'string', description: 'End date (YYYY-MM-DD)' },
+        active: { type: 'boolean', description: 'Campaign active status', default: true }
+      },
+      required: ['advertiser_id', 'campaign_name', 'budget', 'start_date']
+    }
+  },
+  {
+    name: 'beeswax_get_line_items',
+    description: 'Get line items from Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        campaign_id: { type: 'string', description: 'Filter by campaign ID' },
+        advertiser_id: { type: 'string', description: 'Filter by advertiser ID' },
+        active: { type: 'boolean', description: 'Filter by active status' },
+        limit: { type: 'number', minimum: 1, maximum: 100, default: 50 }
+      }
+    }
+  },
+  {
+    name: 'beeswax_create_line_item',
+    description: 'Create a new line item in Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        campaign_id: { type: 'string', description: 'Campaign ID' },
+        line_item_name: { type: 'string', description: 'Line item name' },
+        bidding_strategy: { type: 'string', enum: ['CPM', 'CPC', 'AUTO'], description: 'Bidding strategy', default: 'CPM' },
+        bid_amount: { type: 'number', description: 'Bid amount in cents' },
+        budget: { type: 'number', description: 'Line item budget in cents' },
+        targeting: {
+          type: 'object',
+          properties: {
+            geo: { type: 'array', items: { type: 'string' }, description: 'Geographic targeting' },
+            device_type: { type: 'array', items: { type: 'string' }, description: 'Device type targeting' }
+          }
+        }
+      },
+      required: ['campaign_id', 'line_item_name', 'bid_amount', 'budget']
+    }
+  },
+  {
+    name: 'beeswax_get_creatives',
+    description: 'Get creatives from Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        advertiser_id: { type: 'string', description: 'Filter by advertiser ID' },
+        creative_name: { type: 'string', description: 'Filter by creative name' },
+        active: { type: 'boolean', description: 'Filter by active status' },
+        limit: { type: 'number', minimum: 1, maximum: 100, default: 50 }
+      }
+    }
+  },
+  {
+    name: 'beeswax_upload_creative',
+    description: 'Upload a creative to Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        advertiser_id: { type: 'string', description: 'Advertiser ID' },
+        creative_name: { type: 'string', description: 'Creative name' },
+        creative_content: { type: 'string', description: 'Base64 encoded creative content (image/video)' },
+        creative_type: { type: 'string', enum: ['BANNER', 'VIDEO', 'NATIVE'], description: 'Creative type' },
+        width: { type: 'number', description: 'Creative width in pixels' },
+        height: { type: 'number', description: 'Creative height in pixels' },
+        click_url: { type: 'string', description: 'Click through URL' }
+      },
+      required: ['advertiser_id', 'creative_name', 'creative_content', 'creative_type', 'width', 'height', 'click_url']
+    }
+  },
+  {
+    name: 'beeswax_get_reports',
+    description: 'Get performance reports from Beeswax DSP',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        report_type: { type: 'string', enum: ['campaign', 'line_item', 'creative'], description: 'Report type', default: 'campaign' },
+        start_date: { type: 'string', description: 'Start date (YYYY-MM-DD)' },
+        end_date: { type: 'string', description: 'End date (YYYY-MM-DD)' },
+        advertiser_id: { type: 'string', description: 'Filter by advertiser ID' },
+        metrics: {
+          type: 'array',
+          items: { type: 'string' },
+          description: 'Metrics to include',
+          default: ['impressions', 'clicks', 'spend', 'conversions']
+        }
+      },
+      required: ['start_date', 'end_date']
+    }
+  }
 ];
 
 // Helper functions
@@ -369,6 +503,268 @@ export async function handleBeeswaxTool(name: string, args: any): Promise<any> {
               processed,
               skipped,
               results,
+            }, null, 2)
+          }]
+        };
+      }
+
+      // Beeswax DSP API tools
+      case 'beeswax_get_campaigns': {
+        const beeswax = getBeeswaxClient();
+        const { advertiser_id, campaign_name, active, limit = 50 } = args;
+
+        const params = new URLSearchParams();
+        if (advertiser_id) params.append('advertiser_id', advertiser_id);
+        if (campaign_name) params.append('campaign_name', campaign_name);
+        if (active !== undefined) params.append('active', active.toString());
+        params.append('rows', limit.toString());
+
+        const response = await beeswax.get(`/rest/campaign?${params}`);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: true,
+              total: response.data.payload?.length || 0,
+              campaigns: response.data.payload?.map((campaign: any) => ({
+                campaign_id: campaign.campaign_id,
+                campaign_name: campaign.campaign_name,
+                advertiser_id: campaign.advertiser_id,
+                budget: campaign.budget,
+                start_date: campaign.start_date,
+                end_date: campaign.end_date,
+                active: campaign.active,
+                spend: campaign.spend,
+                impressions: campaign.impressions,
+                clicks: campaign.clicks
+              })) || []
+            }, null, 2)
+          }]
+        };
+      }
+
+      case 'beeswax_create_campaign': {
+        const beeswax = getBeeswaxClient();
+        const { advertiser_id, campaign_name, budget, start_date, end_date, active = true } = args;
+
+        const campaignData = {
+          advertiser_id,
+          campaign_name,
+          budget,
+          start_date,
+          end_date,
+          active,
+          campaign_budget_type: 1, // LIFETIME
+          bidding_strategy: 'CPM'
+        };
+
+        const response = await beeswax.post('/rest/campaign', campaignData);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: response.data.success,
+              campaign: {
+                campaign_id: response.data.payload?.campaign_id,
+                campaign_name: response.data.payload?.campaign_name,
+                advertiser_id: response.data.payload?.advertiser_id,
+                budget: response.data.payload?.budget,
+                active: response.data.payload?.active
+              }
+            }, null, 2)
+          }]
+        };
+      }
+
+      case 'beeswax_get_line_items': {
+        const beeswax = getBeeswaxClient();
+        const { campaign_id, advertiser_id, active, limit = 50 } = args;
+
+        const params = new URLSearchParams();
+        if (campaign_id) params.append('campaign_id', campaign_id);
+        if (advertiser_id) params.append('advertiser_id', advertiser_id);
+        if (active !== undefined) params.append('active', active.toString());
+        params.append('rows', limit.toString());
+
+        const response = await beeswax.get(`/rest/line_item?${params}`);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: true,
+              total: response.data.payload?.length || 0,
+              line_items: response.data.payload?.map((li: any) => ({
+                line_item_id: li.line_item_id,
+                line_item_name: li.line_item_name,
+                campaign_id: li.campaign_id,
+                bidding_strategy: li.bidding_strategy,
+                bid_amount: li.bid_amount,
+                budget: li.budget,
+                active: li.active,
+                spend: li.spend,
+                impressions: li.impressions,
+                clicks: li.clicks
+              })) || []
+            }, null, 2)
+          }]
+        };
+      }
+
+      case 'beeswax_create_line_item': {
+        const beeswax = getBeeswaxClient();
+        const { campaign_id, line_item_name, bidding_strategy = 'CPM', bid_amount, budget, targeting = {} } = args;
+
+        const lineItemData = {
+          campaign_id,
+          line_item_name,
+          bidding_strategy,
+          bid_amount,
+          budget,
+          budget_type: 1, // LIFETIME
+          active: true,
+          ...targeting
+        };
+
+        const response = await beeswax.post('/rest/line_item', lineItemData);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: response.data.success,
+              line_item: {
+                line_item_id: response.data.payload?.line_item_id,
+                line_item_name: response.data.payload?.line_item_name,
+                campaign_id: response.data.payload?.campaign_id,
+                bidding_strategy: response.data.payload?.bidding_strategy,
+                bid_amount: response.data.payload?.bid_amount,
+                budget: response.data.payload?.budget
+              }
+            }, null, 2)
+          }]
+        };
+      }
+
+      case 'beeswax_get_creatives': {
+        const beeswax = getBeeswaxClient();
+        const { advertiser_id, creative_name, active, limit = 50 } = args;
+
+        const params = new URLSearchParams();
+        if (advertiser_id) params.append('advertiser_id', advertiser_id);
+        if (creative_name) params.append('creative_name', creative_name);
+        if (active !== undefined) params.append('active', active.toString());
+        params.append('rows', limit.toString());
+
+        const response = await beeswax.get(`/rest/creative?${params}`);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: true,
+              total: response.data.payload?.length || 0,
+              creatives: response.data.payload?.map((creative: any) => ({
+                creative_id: creative.creative_id,
+                creative_name: creative.creative_name,
+                advertiser_id: creative.advertiser_id,
+                creative_type: creative.creative_type,
+                width: creative.width,
+                height: creative.height,
+                active: creative.active,
+                click_url: creative.click_url,
+                impressions: creative.impressions,
+                clicks: creative.clicks
+              })) || []
+            }, null, 2)
+          }]
+        };
+      }
+
+      case 'beeswax_upload_creative': {
+        const beeswax = getBeeswaxClient();
+        const { advertiser_id, creative_name, creative_content, creative_type, width, height, click_url } = args;
+
+        // First upload the creative asset
+        const assetData = {
+          advertiser_id,
+          asset_name: creative_name,
+          asset_content: creative_content, // Base64 content
+          asset_type: creative_type
+        };
+
+        const assetResponse = await beeswax.post('/rest/creative_asset', assetData);
+
+        if (!assetResponse.data.success) {
+          throw new Error('Failed to upload creative asset');
+        }
+
+        // Then create the creative
+        const creativeData = {
+          advertiser_id,
+          creative_name,
+          creative_type,
+          width,
+          height,
+          click_url,
+          creative_asset_id: assetResponse.data.payload.creative_asset_id,
+          active: true
+        };
+
+        const response = await beeswax.post('/rest/creative', creativeData);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: response.data.success,
+              creative: {
+                creative_id: response.data.payload?.creative_id,
+                creative_name: response.data.payload?.creative_name,
+                creative_type: response.data.payload?.creative_type,
+                width: response.data.payload?.width,
+                height: response.data.payload?.height,
+                click_url: response.data.payload?.click_url,
+                active: response.data.payload?.active
+              }
+            }, null, 2)
+          }]
+        };
+      }
+
+      case 'beeswax_get_reports': {
+        const beeswax = getBeeswaxClient();
+        const { report_type = 'campaign', start_date, end_date, advertiser_id, metrics = ['impressions', 'clicks', 'spend', 'conversions'] } = args;
+
+        const reportData = {
+          report_type,
+          start_date,
+          end_date,
+          advertiser_id,
+          metrics: metrics.join(','),
+          dimensions: report_type,
+          format: 'json'
+        };
+
+        const response = await beeswax.post('/rest/report', reportData);
+
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify({
+              success: response.data.success,
+              report_type,
+              date_range: `${start_date} to ${end_date}`,
+              total_rows: response.data.payload?.length || 0,
+              data: response.data.payload || [],
+              summary: {
+                total_impressions: response.data.payload?.reduce((sum: number, row: any) => sum + (row.impressions || 0), 0),
+                total_clicks: response.data.payload?.reduce((sum: number, row: any) => sum + (row.clicks || 0), 0),
+                total_spend: response.data.payload?.reduce((sum: number, row: any) => sum + (row.spend || 0), 0),
+                total_conversions: response.data.payload?.reduce((sum: number, row: any) => sum + (row.conversions || 0), 0)
+              }
             }, null, 2)
           }]
         };

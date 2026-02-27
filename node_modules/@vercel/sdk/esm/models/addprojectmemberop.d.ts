@@ -1,0 +1,199 @@
+import * as z from "zod/v3";
+import { ClosedEnum } from "../types/enums.js";
+import { Result as SafeParseResult } from "../types/fp.js";
+import { SDKValidationError } from "./sdkvalidationerror.js";
+/**
+ * The project role of the member that will be added.
+ */
+export declare const AddProjectMemberRequestBodyProjectMembersRole: {
+    readonly Admin: "ADMIN";
+    readonly ProjectViewer: "PROJECT_VIEWER";
+    readonly ProjectDeveloper: "PROJECT_DEVELOPER";
+};
+/**
+ * The project role of the member that will be added.
+ */
+export type AddProjectMemberRequestBodyProjectMembersRole = ClosedEnum<typeof AddProjectMemberRequestBodyProjectMembersRole>;
+export type AddProjectMemberRequestBody3 = {
+    /**
+     * The ID of the team member that should be added to this project.
+     */
+    uid?: string | undefined;
+    /**
+     * The username of the team member that should be added to this project.
+     */
+    username?: string | undefined;
+    /**
+     * The email of the team member that should be added to this project.
+     */
+    email: string;
+    /**
+     * The project role of the member that will be added.
+     */
+    role: AddProjectMemberRequestBodyProjectMembersRole;
+};
+/**
+ * The project role of the member that will be added.
+ */
+export declare const AddProjectMemberRequestBodyRole: {
+    readonly Admin: "ADMIN";
+    readonly ProjectViewer: "PROJECT_VIEWER";
+    readonly ProjectDeveloper: "PROJECT_DEVELOPER";
+};
+/**
+ * The project role of the member that will be added.
+ */
+export type AddProjectMemberRequestBodyRole = ClosedEnum<typeof AddProjectMemberRequestBodyRole>;
+export type AddProjectMemberRequestBody2 = {
+    /**
+     * The ID of the team member that should be added to this project.
+     */
+    uid?: string | undefined;
+    /**
+     * The username of the team member that should be added to this project.
+     */
+    username: string;
+    /**
+     * The email of the team member that should be added to this project.
+     */
+    email?: string | undefined;
+    /**
+     * The project role of the member that will be added.
+     */
+    role: AddProjectMemberRequestBodyRole;
+};
+/**
+ * The project role of the member that will be added.
+ */
+export declare const RequestBodyRole: {
+    readonly Admin: "ADMIN";
+    readonly ProjectViewer: "PROJECT_VIEWER";
+    readonly ProjectDeveloper: "PROJECT_DEVELOPER";
+};
+/**
+ * The project role of the member that will be added.
+ */
+export type RequestBodyRole = ClosedEnum<typeof RequestBodyRole>;
+export type AddProjectMemberRequestBody1 = {
+    /**
+     * The ID of the team member that should be added to this project.
+     */
+    uid: string;
+    /**
+     * The username of the team member that should be added to this project.
+     */
+    username?: string | undefined;
+    /**
+     * The email of the team member that should be added to this project.
+     */
+    email?: string | undefined;
+    /**
+     * The project role of the member that will be added.
+     */
+    role: RequestBodyRole;
+};
+export type AddProjectMemberRequestBody = AddProjectMemberRequestBody1 | AddProjectMemberRequestBody2 | AddProjectMemberRequestBody3;
+export type AddProjectMemberRequest = {
+    /**
+     * The ID or name of the Project.
+     */
+    idOrName: string;
+    /**
+     * The Team identifier to perform the request on behalf of.
+     */
+    teamId?: string | undefined;
+    /**
+     * The Team slug to perform the request on behalf of.
+     */
+    slug?: string | undefined;
+    requestBody: AddProjectMemberRequestBody1 | AddProjectMemberRequestBody2 | AddProjectMemberRequestBody3;
+};
+/**
+ * Responds with the project ID on success.
+ */
+export type AddProjectMemberResponseBody = {
+    id: string;
+};
+/** @internal */
+export declare const AddProjectMemberRequestBodyProjectMembersRole$inboundSchema: z.ZodNativeEnum<typeof AddProjectMemberRequestBodyProjectMembersRole>;
+/** @internal */
+export declare const AddProjectMemberRequestBodyProjectMembersRole$outboundSchema: z.ZodNativeEnum<typeof AddProjectMemberRequestBodyProjectMembersRole>;
+/** @internal */
+export declare const AddProjectMemberRequestBody3$inboundSchema: z.ZodType<AddProjectMemberRequestBody3, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AddProjectMemberRequestBody3$Outbound = {
+    uid?: string | undefined;
+    username?: string | undefined;
+    email: string;
+    role: string;
+};
+/** @internal */
+export declare const AddProjectMemberRequestBody3$outboundSchema: z.ZodType<AddProjectMemberRequestBody3$Outbound, z.ZodTypeDef, AddProjectMemberRequestBody3>;
+export declare function addProjectMemberRequestBody3ToJSON(addProjectMemberRequestBody3: AddProjectMemberRequestBody3): string;
+export declare function addProjectMemberRequestBody3FromJSON(jsonString: string): SafeParseResult<AddProjectMemberRequestBody3, SDKValidationError>;
+/** @internal */
+export declare const AddProjectMemberRequestBodyRole$inboundSchema: z.ZodNativeEnum<typeof AddProjectMemberRequestBodyRole>;
+/** @internal */
+export declare const AddProjectMemberRequestBodyRole$outboundSchema: z.ZodNativeEnum<typeof AddProjectMemberRequestBodyRole>;
+/** @internal */
+export declare const AddProjectMemberRequestBody2$inboundSchema: z.ZodType<AddProjectMemberRequestBody2, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AddProjectMemberRequestBody2$Outbound = {
+    uid?: string | undefined;
+    username: string;
+    email?: string | undefined;
+    role: string;
+};
+/** @internal */
+export declare const AddProjectMemberRequestBody2$outboundSchema: z.ZodType<AddProjectMemberRequestBody2$Outbound, z.ZodTypeDef, AddProjectMemberRequestBody2>;
+export declare function addProjectMemberRequestBody2ToJSON(addProjectMemberRequestBody2: AddProjectMemberRequestBody2): string;
+export declare function addProjectMemberRequestBody2FromJSON(jsonString: string): SafeParseResult<AddProjectMemberRequestBody2, SDKValidationError>;
+/** @internal */
+export declare const RequestBodyRole$inboundSchema: z.ZodNativeEnum<typeof RequestBodyRole>;
+/** @internal */
+export declare const RequestBodyRole$outboundSchema: z.ZodNativeEnum<typeof RequestBodyRole>;
+/** @internal */
+export declare const AddProjectMemberRequestBody1$inboundSchema: z.ZodType<AddProjectMemberRequestBody1, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AddProjectMemberRequestBody1$Outbound = {
+    uid: string;
+    username?: string | undefined;
+    email?: string | undefined;
+    role: string;
+};
+/** @internal */
+export declare const AddProjectMemberRequestBody1$outboundSchema: z.ZodType<AddProjectMemberRequestBody1$Outbound, z.ZodTypeDef, AddProjectMemberRequestBody1>;
+export declare function addProjectMemberRequestBody1ToJSON(addProjectMemberRequestBody1: AddProjectMemberRequestBody1): string;
+export declare function addProjectMemberRequestBody1FromJSON(jsonString: string): SafeParseResult<AddProjectMemberRequestBody1, SDKValidationError>;
+/** @internal */
+export declare const AddProjectMemberRequestBody$inboundSchema: z.ZodType<AddProjectMemberRequestBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AddProjectMemberRequestBody$Outbound = AddProjectMemberRequestBody1$Outbound | AddProjectMemberRequestBody2$Outbound | AddProjectMemberRequestBody3$Outbound;
+/** @internal */
+export declare const AddProjectMemberRequestBody$outboundSchema: z.ZodType<AddProjectMemberRequestBody$Outbound, z.ZodTypeDef, AddProjectMemberRequestBody>;
+export declare function addProjectMemberRequestBodyToJSON(addProjectMemberRequestBody: AddProjectMemberRequestBody): string;
+export declare function addProjectMemberRequestBodyFromJSON(jsonString: string): SafeParseResult<AddProjectMemberRequestBody, SDKValidationError>;
+/** @internal */
+export declare const AddProjectMemberRequest$inboundSchema: z.ZodType<AddProjectMemberRequest, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AddProjectMemberRequest$Outbound = {
+    idOrName: string;
+    teamId?: string | undefined;
+    slug?: string | undefined;
+    RequestBody: AddProjectMemberRequestBody1$Outbound | AddProjectMemberRequestBody2$Outbound | AddProjectMemberRequestBody3$Outbound;
+};
+/** @internal */
+export declare const AddProjectMemberRequest$outboundSchema: z.ZodType<AddProjectMemberRequest$Outbound, z.ZodTypeDef, AddProjectMemberRequest>;
+export declare function addProjectMemberRequestToJSON(addProjectMemberRequest: AddProjectMemberRequest): string;
+export declare function addProjectMemberRequestFromJSON(jsonString: string): SafeParseResult<AddProjectMemberRequest, SDKValidationError>;
+/** @internal */
+export declare const AddProjectMemberResponseBody$inboundSchema: z.ZodType<AddProjectMemberResponseBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type AddProjectMemberResponseBody$Outbound = {
+    id: string;
+};
+/** @internal */
+export declare const AddProjectMemberResponseBody$outboundSchema: z.ZodType<AddProjectMemberResponseBody$Outbound, z.ZodTypeDef, AddProjectMemberResponseBody>;
+export declare function addProjectMemberResponseBodyToJSON(addProjectMemberResponseBody: AddProjectMemberResponseBody): string;
+export declare function addProjectMemberResponseBodyFromJSON(jsonString: string): SafeParseResult<AddProjectMemberResponseBody, SDKValidationError>;
+//# sourceMappingURL=addprojectmemberop.d.ts.map

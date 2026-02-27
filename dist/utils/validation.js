@@ -36,7 +36,26 @@ exports.envSchema = zod_1.z.object({
     AWS_ACCESS_KEY_ID: zod_1.z.string().optional(),
     AWS_SECRET_ACCESS_KEY: zod_1.z.string().optional(),
     // Gemini
-    GEMINI_API_KEY: zod_1.z.string().optional()
+    GEMINI_API_KEY: zod_1.z.string().optional(),
+    // OpenAI
+    OPENAI_API_KEY: zod_1.z.string().optional(),
+    OPENAI_ORG_ID: zod_1.z.string().optional(),
+    // Anthropic
+    ANTHROPIC_API_KEY: zod_1.z.string().optional(),
+    // GitHub
+    GITHUB_TOKEN: zod_1.z.string().optional(),
+    GITHUB_OWNER: zod_1.z.string().optional(),
+    // Vercel
+    VERCEL_TOKEN: zod_1.z.string().optional(),
+    VERCEL_TEAM_ID: zod_1.z.string().optional(),
+    // Supabase
+    SUPABASE_URL: zod_1.z.string().optional(),
+    SUPABASE_ANON_KEY: zod_1.z.string().optional(),
+    SUPABASE_SERVICE_ROLE_KEY: zod_1.z.string().optional(),
+    // Beeswax DSP
+    BEESWAX_API_URL: zod_1.z.string().optional(),
+    BEESWAX_API_KEY: zod_1.z.string().optional(),
+    BEESWAX_USER_ID: zod_1.z.string().optional()
 });
 // MCP request schemas
 exports.listToolsRequestSchema = zod_1.z.object({

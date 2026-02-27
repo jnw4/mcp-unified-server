@@ -1,0 +1,233 @@
+import * as z from "zod/v3";
+import { ClosedEnum } from "../types/enums.js";
+import { Result as SafeParseResult } from "../types/fp.js";
+import { SDKValidationError } from "./sdkvalidationerror.js";
+export type RemoveCustomEnvironmentRequestBody = {
+    /**
+     * Delete Environment Variables that are not assigned to any environments.
+     */
+    deleteUnassignedEnvironmentVariables?: boolean | undefined;
+};
+export type RemoveCustomEnvironmentRequest = {
+    /**
+     * The unique project identifier or the project name
+     */
+    idOrName: string;
+    /**
+     * The unique custom environment identifier within the project
+     */
+    environmentSlugOrId: string;
+    /**
+     * The Team identifier to perform the request on behalf of.
+     */
+    teamId?: string | undefined;
+    /**
+     * The Team slug to perform the request on behalf of.
+     */
+    slug?: string | undefined;
+    requestBody?: RemoveCustomEnvironmentRequestBody | undefined;
+};
+/**
+ * The type of environment (production, preview, or development)
+ */
+export declare const RemoveCustomEnvironmentType: {
+    readonly Production: "production";
+    readonly Preview: "preview";
+    readonly Development: "development";
+};
+/**
+ * The type of environment (production, preview, or development)
+ */
+export type RemoveCustomEnvironmentType = ClosedEnum<typeof RemoveCustomEnvironmentType>;
+/**
+ * The type of matching to perform
+ */
+export declare const RemoveCustomEnvironmentEnvironmentType: {
+    readonly EndsWith: "endsWith";
+    readonly StartsWith: "startsWith";
+    readonly Equals: "equals";
+};
+/**
+ * The type of matching to perform
+ */
+export type RemoveCustomEnvironmentEnvironmentType = ClosedEnum<typeof RemoveCustomEnvironmentEnvironmentType>;
+/**
+ * Configuration for matching git branches to this environment
+ */
+export type RemoveCustomEnvironmentBranchMatcher = {
+    /**
+     * The type of matching to perform
+     */
+    type: RemoveCustomEnvironmentEnvironmentType;
+    /**
+     * The pattern to match against branch names
+     */
+    pattern: string;
+};
+/**
+ * A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`.
+ */
+export type RemoveCustomEnvironmentVerification = {
+    type: string;
+    domain: string;
+    value: string;
+    reason: string;
+};
+/**
+ * List of domains associated with this environment
+ */
+export type RemoveCustomEnvironmentDomains = {
+    name: string;
+    apexName: string;
+    projectId: string;
+    redirect?: string | null | undefined;
+    redirectStatusCode?: number | null | undefined;
+    gitBranch?: string | null | undefined;
+    customEnvironmentId?: string | null | undefined;
+    updatedAt?: number | undefined;
+    createdAt?: number | undefined;
+    /**
+     * `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed.
+     */
+    verified: boolean;
+    /**
+     * A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`.
+     */
+    verification?: Array<RemoveCustomEnvironmentVerification> | undefined;
+};
+/**
+ * Internal representation of a custom environment with all required properties
+ */
+export type RemoveCustomEnvironmentResponseBody = {
+    /**
+     * Unique identifier for the custom environment (format: env_*)
+     */
+    id: string;
+    /**
+     * URL-friendly name of the environment
+     */
+    slug: string;
+    /**
+     * The type of environment (production, preview, or development)
+     */
+    type: RemoveCustomEnvironmentType;
+    /**
+     * Optional description of the environment's purpose
+     */
+    description?: string | undefined;
+    /**
+     * Configuration for matching git branches to this environment
+     */
+    branchMatcher?: RemoveCustomEnvironmentBranchMatcher | undefined;
+    /**
+     * List of domains associated with this environment
+     */
+    domains?: Array<RemoveCustomEnvironmentDomains> | undefined;
+    /**
+     * List of aliases for the current deployment
+     */
+    currentDeploymentAliases?: Array<string> | undefined;
+    /**
+     * Timestamp when the environment was created
+     */
+    createdAt: number;
+    /**
+     * Timestamp when the environment was last updated
+     */
+    updatedAt: number;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentRequestBody$inboundSchema: z.ZodType<RemoveCustomEnvironmentRequestBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type RemoveCustomEnvironmentRequestBody$Outbound = {
+    deleteUnassignedEnvironmentVariables?: boolean | undefined;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentRequestBody$outboundSchema: z.ZodType<RemoveCustomEnvironmentRequestBody$Outbound, z.ZodTypeDef, RemoveCustomEnvironmentRequestBody>;
+export declare function removeCustomEnvironmentRequestBodyToJSON(removeCustomEnvironmentRequestBody: RemoveCustomEnvironmentRequestBody): string;
+export declare function removeCustomEnvironmentRequestBodyFromJSON(jsonString: string): SafeParseResult<RemoveCustomEnvironmentRequestBody, SDKValidationError>;
+/** @internal */
+export declare const RemoveCustomEnvironmentRequest$inboundSchema: z.ZodType<RemoveCustomEnvironmentRequest, z.ZodTypeDef, unknown>;
+/** @internal */
+export type RemoveCustomEnvironmentRequest$Outbound = {
+    idOrName: string;
+    environmentSlugOrId: string;
+    teamId?: string | undefined;
+    slug?: string | undefined;
+    RequestBody?: RemoveCustomEnvironmentRequestBody$Outbound | undefined;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentRequest$outboundSchema: z.ZodType<RemoveCustomEnvironmentRequest$Outbound, z.ZodTypeDef, RemoveCustomEnvironmentRequest>;
+export declare function removeCustomEnvironmentRequestToJSON(removeCustomEnvironmentRequest: RemoveCustomEnvironmentRequest): string;
+export declare function removeCustomEnvironmentRequestFromJSON(jsonString: string): SafeParseResult<RemoveCustomEnvironmentRequest, SDKValidationError>;
+/** @internal */
+export declare const RemoveCustomEnvironmentType$inboundSchema: z.ZodNativeEnum<typeof RemoveCustomEnvironmentType>;
+/** @internal */
+export declare const RemoveCustomEnvironmentType$outboundSchema: z.ZodNativeEnum<typeof RemoveCustomEnvironmentType>;
+/** @internal */
+export declare const RemoveCustomEnvironmentEnvironmentType$inboundSchema: z.ZodNativeEnum<typeof RemoveCustomEnvironmentEnvironmentType>;
+/** @internal */
+export declare const RemoveCustomEnvironmentEnvironmentType$outboundSchema: z.ZodNativeEnum<typeof RemoveCustomEnvironmentEnvironmentType>;
+/** @internal */
+export declare const RemoveCustomEnvironmentBranchMatcher$inboundSchema: z.ZodType<RemoveCustomEnvironmentBranchMatcher, z.ZodTypeDef, unknown>;
+/** @internal */
+export type RemoveCustomEnvironmentBranchMatcher$Outbound = {
+    type: string;
+    pattern: string;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentBranchMatcher$outboundSchema: z.ZodType<RemoveCustomEnvironmentBranchMatcher$Outbound, z.ZodTypeDef, RemoveCustomEnvironmentBranchMatcher>;
+export declare function removeCustomEnvironmentBranchMatcherToJSON(removeCustomEnvironmentBranchMatcher: RemoveCustomEnvironmentBranchMatcher): string;
+export declare function removeCustomEnvironmentBranchMatcherFromJSON(jsonString: string): SafeParseResult<RemoveCustomEnvironmentBranchMatcher, SDKValidationError>;
+/** @internal */
+export declare const RemoveCustomEnvironmentVerification$inboundSchema: z.ZodType<RemoveCustomEnvironmentVerification, z.ZodTypeDef, unknown>;
+/** @internal */
+export type RemoveCustomEnvironmentVerification$Outbound = {
+    type: string;
+    domain: string;
+    value: string;
+    reason: string;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentVerification$outboundSchema: z.ZodType<RemoveCustomEnvironmentVerification$Outbound, z.ZodTypeDef, RemoveCustomEnvironmentVerification>;
+export declare function removeCustomEnvironmentVerificationToJSON(removeCustomEnvironmentVerification: RemoveCustomEnvironmentVerification): string;
+export declare function removeCustomEnvironmentVerificationFromJSON(jsonString: string): SafeParseResult<RemoveCustomEnvironmentVerification, SDKValidationError>;
+/** @internal */
+export declare const RemoveCustomEnvironmentDomains$inboundSchema: z.ZodType<RemoveCustomEnvironmentDomains, z.ZodTypeDef, unknown>;
+/** @internal */
+export type RemoveCustomEnvironmentDomains$Outbound = {
+    name: string;
+    apexName: string;
+    projectId: string;
+    redirect?: string | null | undefined;
+    redirectStatusCode?: number | null | undefined;
+    gitBranch?: string | null | undefined;
+    customEnvironmentId?: string | null | undefined;
+    updatedAt?: number | undefined;
+    createdAt?: number | undefined;
+    verified: boolean;
+    verification?: Array<RemoveCustomEnvironmentVerification$Outbound> | undefined;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentDomains$outboundSchema: z.ZodType<RemoveCustomEnvironmentDomains$Outbound, z.ZodTypeDef, RemoveCustomEnvironmentDomains>;
+export declare function removeCustomEnvironmentDomainsToJSON(removeCustomEnvironmentDomains: RemoveCustomEnvironmentDomains): string;
+export declare function removeCustomEnvironmentDomainsFromJSON(jsonString: string): SafeParseResult<RemoveCustomEnvironmentDomains, SDKValidationError>;
+/** @internal */
+export declare const RemoveCustomEnvironmentResponseBody$inboundSchema: z.ZodType<RemoveCustomEnvironmentResponseBody, z.ZodTypeDef, unknown>;
+/** @internal */
+export type RemoveCustomEnvironmentResponseBody$Outbound = {
+    id: string;
+    slug: string;
+    type: string;
+    description?: string | undefined;
+    branchMatcher?: RemoveCustomEnvironmentBranchMatcher$Outbound | undefined;
+    domains?: Array<RemoveCustomEnvironmentDomains$Outbound> | undefined;
+    currentDeploymentAliases?: Array<string> | undefined;
+    createdAt: number;
+    updatedAt: number;
+};
+/** @internal */
+export declare const RemoveCustomEnvironmentResponseBody$outboundSchema: z.ZodType<RemoveCustomEnvironmentResponseBody$Outbound, z.ZodTypeDef, RemoveCustomEnvironmentResponseBody>;
+export declare function removeCustomEnvironmentResponseBodyToJSON(removeCustomEnvironmentResponseBody: RemoveCustomEnvironmentResponseBody): string;
+export declare function removeCustomEnvironmentResponseBodyFromJSON(jsonString: string): SafeParseResult<RemoveCustomEnvironmentResponseBody, SDKValidationError>;
+//# sourceMappingURL=removecustomenvironmentop.d.ts.map
